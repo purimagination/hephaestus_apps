@@ -9,19 +9,12 @@ import geometry_msgs.msg
 import math
 import sys
 
+NUM_JOINTS = 6
+
 def dist(p, q):
     return math.sqrt(sum((p_i - q_i) ** 2.0 for p_i, q_i in zip(p, q)))
 
 def all_close(goal, actual, tolerance):
-    """
-    Convenience method for testing if the values in two lists are within a tolerance of each other.
-    For Pose and PoseStamped inputs, the angle between the two quaternions is compared (the angle
-    between the identical orientations q and -q is calculated correctly).
-    @param: goal       A list of floats, a Pose or a PoseStamped
-    @param: actual     A list of floats, a Pose or a PoseStamped
-    @param: tolerance  A float
-    @returns: bool
-    """
     if type(goal) is list:
         for index in range(len(goal)):
             if abs(actual[index] - goal[index]) > tolerance:
@@ -46,61 +39,35 @@ class MoveGroupPythonInterfaceTutorial(object):
         super(MoveGroupPythonInterfaceTutorial, self).__init__()
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node("move_group_python_interface_tutorial", anonymous=True)
-        robot = moveit_commander.RobotCommander()
-        scene = moveit_commander.PlanningSceneInterface()
         group_name = "hephaestus_arm_group"
         move_group = moveit_commander.MoveGroupCommander(group_name)
-        planning_frame = move_group.get_planning_frame()
-        print("============ Planning frame: %s" % planning_frame)
-        eef_link = move_group.get_end_effector_link()
-        print("============ End effector link: %s" % eef_link)
-        group_names = robot.get_group_names()
-        print("============ Available Planning Groups:", robot.get_group_names())
-        print("============ Printing robot state")
-        print(robot.get_current_state())
-        print("")
 
-        self.robot = robot
-        self.scene = scene
         self.move_group = move_group
-        self.planning_frame = planning_frame
-        self.eef_link = eef_link
-        self.group_names = group_names
 
-    def go_to_joint_state(self):
-        move_group = self.move_group
-        joint_goal = move_group.get_current_joint_values()
-        joint_goal[0] = 0
-        joint_goal[1] = -math.tau / 8
-        joint_goal[2] = 0
-        joint_goal[3] = -math.tau / 4
-        joint_goal[4] = 0
-        joint_goal[5] = math.tau / 6  # 1/6 of a turn
-        move_group.go(joint_goal, wait=True)
-        move_group.stop()
-        current_joints = move_group.get_current_joint_values()
-        return all_close(joint_goal, current_joints, 0.01)
+    def go_to_joint_state(self, goals):
+        if type(goals) is list:
+            move_group = self.move_group
+            joint_goal = move_group.get_current_joint_values()
+            for i in range(NUM_JOINTS):
+                joint_goal[i] = goals[i]
+            move_group.go(joint_goal, wait=True)
+            move_group.stop()
+            current_joints = move_group.get_current_joint_values()
+            return all_close(joint_goal, current_joints, 0.01)
+        else:
+            rospy.logwarn("Invalid Input for Function go_To_joint_state. Type must be List.")
     
 def main():
     try:
-        print("")
-        print("----------------------------------------------------------")
-        print("Welcome to the MoveIt MoveGroup Python Interface Tutorial")
-        print("----------------------------------------------------------")
-        print("Press Ctrl-D to exit at any time")
-        print("")
-        input(
-            "============ Press `Enter` to begin the tutorial by setting up the moveit_commander ..."
-        )
         tutorial = MoveGroupPythonInterfaceTutorial()
-
-        input(
-            "============ Press `Enter` to execute a movement using a joint state goal ..."
-        )
-        tutorial.go_to_joint_state()
+        goals = [0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+        rospy.loginfo("Press ENTER to move the arm.")
+        input("")
+        tutorial.go_to_joint_state(goals)
 
     except rospy.ROSInterruptException:
         return
+    
     except KeyboardInterrupt:
         return
     
