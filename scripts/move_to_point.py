@@ -60,7 +60,24 @@ class MoveGroupPythonInterfaceTutorial(object):
 def main():
     try:
         tutorial = MoveGroupPythonInterfaceTutorial()
-        goals = [0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+        # goals = [0.6, 0.6, 0.6, 0.6, 0.6, 0.6]
+
+        goals = [0, 45/180*math.pi, 90/180*math.pi, -30/180*math.pi, 0, 0]
+        rospy.loginfo("Press ENTER to move the arm.")
+        input("")
+        tutorial.go_to_joint_state(goals)
+
+        goals = [32/180*math.pi, 25/180*math.pi, 127/180*math.pi, 6/180*math.pi, 0, 0]
+        rospy.loginfo("Press ENTER to move the arm.")
+        input("")
+        tutorial.go_to_joint_state(goals)
+
+        goals = [32/180*math.pi, 45/180*math.pi, 127/180*math.pi, 0/180*math.pi, 0, 0]
+        rospy.loginfo("Press ENTER to move the arm.")
+        input("")
+        tutorial.go_to_joint_state(goals)
+
+        goals = [0, 0, 0, 0, 0, 0]
         rospy.loginfo("Press ENTER to move the arm.")
         input("")
         tutorial.go_to_joint_state(goals)
