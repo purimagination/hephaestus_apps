@@ -1,4 +1,4 @@
 <launch>
     <include file="$(find hephaestus_moveit)/launch/hephaestus.launch"/>
-    <node pkg="hephaestus_apps" name="move_to_point" type="move_to_point.py" />
+    <node pkg="hephaestus_apps" name="grasp_and_place" type="grasp_and_place.py" />
 </launch>
