@@ -1,4 +1,0 @@
-<launch>
-    <include file="$(find hephaestus_moveit)/launch/hephaestus.launch"/>
-    <node pkg="hephaestus_apps" name="grasp_and_place" type="grasp_and_place.py" />
-</launch>

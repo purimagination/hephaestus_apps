@@ -1,0 +1,4 @@
+<launch>
+    <include file="$(find hephaestus_description)/launch/description.launch"/>
+    <node pkg="hephaestus_apps" type="rosbag_reader.py" name="rosbag_reader" />
+</launch>

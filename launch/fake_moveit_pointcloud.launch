@@ -1,0 +1,26 @@
+<launch>
+    <include file="$(find hephaestus_moveit)/launch/demo.launch"/>
+
+    
+    <include file="$(find realsense2_camera)/launch/demo_pointcloud.launch"/>
+    <node pkg="tf" type="static_transform_publisher" name="easy_handeye_result" args="
+    0.3134616518065628
+    -0.012010237753958588
+    0.7194070364912616
+    0.005647712705123184
+    0.9482061434767769
+    -0.31703788698419155
+    0.018978699394266423
+    link1  camera_color_optical_frame
+    100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="realsense_tf" args="
+    0.015
+    0.0
+    0.0
+    0.001
+    0.01
+    0.0
+    camera_color_optical_frame camera_depth_optical_frame
+    100" />
+</launch>
