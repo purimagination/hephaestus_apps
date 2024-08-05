@@ -100,10 +100,10 @@ class MoveGroupPythonInterfaceTutorial(object):
                                             dimensions=[0.15, 0.3, 0.05],
                                             pose=[0.0, -0.25, 0.0])
 
-        # self.scene.add_object(floor_limit)
+        self.scene.add_object(floor_limit)
         # self.scene.add_object(camera_holder_1)
         # self.scene.add_object(camera_holder_2)
-        self.scene.add_object(table)
+        # self.scene.add_object(table)
 
     def go_to_joint_state(self, goals):
         if type(goals) is list:
@@ -187,21 +187,21 @@ def main():
         input("")
         tutorial.go_to_pose_2()
 
-        rospy.loginfo("Press ENTER to close gripper")
-        input("")
-        call_gripper('close')
+        # rospy.loginfo("Press ENTER to close gripper")
+        # input("")
+        # call_gripper('close')
 
         rospy.loginfo("Press ENTER to go to pose 3.")
         input("")
         tutorial.go_to_joint_state([0,0,0,0,0,0])
 
-        rospy.loginfo("Press ENTER to open gripper")
-        input("")
-        call_gripper('open')
+        # rospy.loginfo("Press ENTER to open gripper")
+        # input("")
+        # call_gripper('open')
 
-        rospy.loginfo("Press ENTER to stop gripper")
-        input("")
-        call_gripper('stop')
+        # rospy.loginfo("Press ENTER to stop gripper")
+        # input("")
+        # call_gripper('stop')
 
     except rospy.ROSInterruptException:
         return
