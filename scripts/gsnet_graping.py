@@ -191,9 +191,9 @@ def main():
         # input("")
         # call_gripper('close')
 
-        rospy.loginfo("Press ENTER to go to pose 3.")
-        input("")
-        tutorial.go_to_joint_state([0,0,0,0,0,0])
+        # rospy.loginfo("Press ENTER to go to pose 3.")
+        # input("")
+        # tutorial.go_to_joint_state([0,0,0,0,0,0])
 
         # rospy.loginfo("Press ENTER to open gripper")
         # input("")
