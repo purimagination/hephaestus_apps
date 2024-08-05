@@ -5,6 +5,7 @@ import tf
 from sensor_msgs.msg import Image, JointState
 from cv_bridge import CvBridge
 import cv2
+import os
 from scipy.spatial.transform import Rotation as R
 import numpy as np
 import yaml
@@ -40,7 +41,7 @@ class DATALoader:
         # string encoding
         # uint8 is_bigendian
         # uint32 step
-        # uint8[] data
+        # uint8[] data"/home/hzx/sample_data_4"
         # print(len(msg.data))
         self.rgb_image = self._cv_bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
         if(self.rgb_init == False):
@@ -65,6 +66,7 @@ class DATALoader:
         if(self.rgb_init * self.depth_init):
             saving_path = self._dataset_root_path + "/data_" + str(self.counter)
             try:
+                print("saving frame: "+str(self.counter))
                 (trans,rot) = self._tf_listener.lookupTransform('/link1', '/gripper', rospy.Time(0))
                 r = R.from_quat(rot).as_matrix()
                 pose = np.asarray([[r[0,0], r[0,1], r[0,2], trans[0]],
@@ -79,8 +81,11 @@ class DATALoader:
                 self.counter += 1
                 rospy.loginfo("saved frame: "+str(self.counter))
             except (tf.LookupException, tf.ConnectivityException, tf.ExtrapolationException):
+                print("tf error")
                 pass
 
 rospy.init_node('corl', anonymous=True)
-dl = DATALoader("/home/hzx/sample_data_2")
+save_dir = "/home/hzx/sample_data_5"
+os.makedirs(save_dir, exist_ok=True)
+dl = DATALoader(save_dir)
 rospy.spin()
