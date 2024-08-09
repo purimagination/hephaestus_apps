@@ -1,0 +1,74 @@
+<launch>
+    <node pkg="tf" type="static_transform_publisher" name="world_2_link1" args="
+    0 
+    0 
+    0
+    0
+    0
+    -3.14
+    world  link1
+    100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="link1_2" args="
+    0 
+    0
+    -0.064
+    0
+    0
+    1.57
+    link1  link2
+    100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="link2_3" args="
+    0
+    -0.279
+    0
+    -1.57
+    0
+    0
+    link2  link3
+    100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="link3_4" args="
+    0.279
+    0
+    0
+    0
+    0
+    0
+    link3  link4
+    100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="link4_5" args="
+    0
+    0
+    -0.076
+    -1.57
+    0
+    -1.57
+    link4  link5
+    100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="link5_6" args="
+    0
+    0
+    0.068
+    1.57
+    0
+    -1.57
+    link5  link6
+    100" />
+
+    <node pkg="tf" type="static_transform_publisher" name="link6_7" args="
+    0
+    0
+    0.0275
+    0
+    0
+    0
+    link6  link7
+    100" />
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d /home/hzx/abbb.rviz" />
+
+</launch>
